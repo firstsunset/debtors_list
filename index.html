@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Учет задолженностей</title>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="form">
+        <label for="input">ФИО</label>
+        <input id="input" type="text">
+        <label for="inputValue">Задолженность($)</label>
+        <input id="inputValue" type="text">
+        <button class="add">Добавить</button>
+      </div>
+      <h3>Список должников</h3>
+      <div class="table">
+        <div class="table-column" id="myDIV">
+          <div class="table-column-string table-column-stringheader">
+                <div>ФИО</div>
+                <div>Задолженность</div>
+                <div>Вернул</div>
+          </div>
+          <div id="list"></div>
+        </div>
+      </div>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
