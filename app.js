@@ -1,30 +1,59 @@
-let input = document.getElementById('input')
-input.focus()
-let inputValue = document.getElementById('inputValue')
-inputValue.focus()
-let addButton = document.querySelector('.add')
-let list = document.getElementById('list')
+let addName = document.querySelector('.name');
+let addValue = document.querySelector('.number');
+let addButton = document.querySelector('.add');
+let list = document.querySelector('.list');
 
-if (localStorage.length != 0) {
-    for (let i = 0; i < localStorage.length; i++) {
-        let key = localStorage.key(i)
-        let template = `${localStorage.getItem(key)}`
-        list.insertAdjacentHTML('afterbegin', template)
-    }
-        
+let debtorList = [];
+
+if (localStorage.getItem('debtor')) {
+    debtorList = JSON.parse(localStorage.getItem('debtor'));
+    displayMessage();
 }
 
+addButton.addEventListener('click', function(){
+    
+    let newDebtor = {
+        name: addName.value,
+        value: addValue.value,
+        checked: false
+    }
+    addName.value = ''
+    addValue.value = ''
+    debtorList.push(newDebtor);
+    displayMessage();
+    localStorage.setItem('debtor', JSON.stringify(debtorList));
 
-addButton.addEventListener('click', () => {
-    let text = input.value
-    let number = inputValue.value 
-    let template = `<div data-id="${++localStorage.length}" class="row"><div>${text}</div><div>${number}</div><input type="checkbox" class="close"></div>`
-    list.insertAdjacentHTML('afterbegin', template)
-    localStorage.setItem(`${++localStorage.length}`, template)
-    input.value = ''
-    inputValue.value = ''
-  
-})
+    
+    
+});
+
+function displayMessage(){
+    let displayMessage = '';
+    debtorList.forEach(function(item, i){
+        displayMessage += `
+       <div class='row'>
+        <label for='item_${i}'>${item.name}</label>
+        <label for='item_${i}'>${item.value}</label>
+        <input type='checkbox' id='item_${i}' ${item.checked ? 'checked' : ''}>
+       </div>
+        `;
+        list.innerHTML = displayMessage;
+    });
+}
+
+list.addEventListener('change', function(event){
+    let idInput = event.target.getAttribute('id');
+    let valueLabel = list.querySelector('[for=' + idInput +']').innerHTML;
+
+    debtorList.forEach(function(item){
+        if (item.name === valueLabel){
+            item.checked = !item.checked;
+            localStorage.setItem('debtor', JSON.stringify(debtorList));
+
+        }
+    });
+    console.log('valueLabel:', valueLabel);
+});
 
 
 
